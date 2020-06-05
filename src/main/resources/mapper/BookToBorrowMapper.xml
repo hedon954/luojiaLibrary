@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BookToBorrowMapper">
+  <resultMap id="BaseResultMap" type="com.bean.BookToBorrow">
+    <id column="book_toBorrow_id" jdbcType="INTEGER" property="bookToborrowId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="reader_id" jdbcType="INTEGER" property="readerId" />
+    <result column="borrowed_date" jdbcType="TIMESTAMP" property="borrowedDate" />
+    <result column="returned_date" jdbcType="TIMESTAMP" property="returnedDate" />
+    <result column="is_returned" jdbcType="TINYINT" property="isReturned" />
+  </resultMap>
+  <!--1. 添加结果集：基础+图书信息-->
+  <resultMap id="ResultMapWithBook" type="com.bean.BookToBorrow">
+    <id column="book_toBorrow_id" jdbcType="INTEGER" property="bookToborrowId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="reader_id" jdbcType="INTEGER" property="readerId" />
+    <result column="borrowed_date" jdbcType="TIMESTAMP" property="borrowedDate" />
+    <result column="returned_date" jdbcType="TIMESTAMP" property="returnedDate" />
+    <result column="is_returned" jdbcType="TINYINT" property="isReturned" />
+    <!--关联书籍信息-->
+    <association property="book" javaType="com.bean.Book">
+      <id column="book_id" jdbcType="INTEGER" property="bookId" />
+      <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+      <result column="type_id" jdbcType="INTEGER" property="typeId" />
+      <result column="book_author" jdbcType="VARCHAR" property="bookAuthor" />
+      <result column="book_press" jdbcType="VARCHAR" property="bookPress" />
+      <result column="book_price" jdbcType="REAL" property="bookPrice" />
+      <result column="book_language" jdbcType="VARCHAR" property="bookLanguage" />
+      <result column="book_pdfURL" jdbcType="VARCHAR" property="bookPdfurl" />
+      <result column="book_entry_time" jdbcType="TIMESTAMP" property="bookEntryTime" />
+      <result column="toBorrow_times" jdbcType="INTEGER" property="toborrowTimes" />
+      <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+      <result column="borrowed_times" jdbcType="INTEGER" property="borrowedTimes" />
+      <result column="book_case_id" jdbcType="INTEGER" property="bookCaseId" />
+      <!--关联-->
+      <association property="bookcase" javaType="com.bean.Bookcase">
+        <id column="bookcase_id" property="bookcaseId"></id>
+        <result column="bookcase_name" property="bookcaseName"></result>
+      </association>
+      <association property="manager" javaType="com.bean.Manager">
+        <id column="manager_id" property="managerId"></id>
+        <result column="manager_name" property="managerName"></result>
+      </association>
+      <association property="bookType" javaType="com.bean.BookType">
+        <id column="type_id" property="typeId"></id>
+        <result column="type_name" property="typeName"></result>
+        <result column="toBorrow_days" property="toborrowDays"></result>
+      </association>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    book_toBorrow_id, book_id, reader_id, borrowed_date, returned_date, is_returned
+  </sql>
+  <!--2. 添加结果字段：基础+图书-->
+  <sql id="Column_List_With_Book">
+    btb.book_toBorrow_id, btb.book_id, btb.reader_id, btb.borrowed_date, btb.returned_date, btb.is_returned,
+    b.book_id, b.book_name, b.type_id, b.book_author, b.book_press, b.book_price, b.book_language,
+    b.book_pdfURL, b.book_entry_time, b.toBorrow_times, b.operator_id, b.borrowed_times, b.book_case_id,
+    bc.bookcase_id, bc.bookcase_name,
+    m.manager_id, m.manager_name, m.manager_pwd,
+    bt.type_id, bt.type_name, bt.toBorrow_days
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.BookToBorrowExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book_toborrow_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book_toborrow_tbl
+    where book_toBorrow_id = #{bookToborrowId,jdbcType=INTEGER}
+  </select>
+  <!--3. 添加两个查询方法-->
+  <select id="selectByExampleWithBook" parameterType="com.bean.BookToBorrowExample" resultMap="ResultMapWithBook">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Column_List_With_Book" />
+    FROM book_toborrow_tbl btb
+    LEFT JOIN book_tbl b ON btb.book_id = b.book_id
+    LEFT JOIN bookcase_tbl bc ON b.book_case_id = bc.bookcase_id
+    LEFT JOIN manager_tbl m ON b.operator_id = m.manager_id
+    LEFT JOIN book_type_tbl bt ON b.type_id = bt.type_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKeyWithBook" parameterType="java.lang.Integer" resultMap="ResultMapWithBook">
+    select
+    <include refid="Column_List_With_Book" />
+    FROM book_toborrow_tbl btb
+    LEFT JOIN book_tbl b ON btb.book_id = b.book_id
+    LEFT JOIN bookcase_tbl bc ON b.book_case_id = bc.bookcase_id
+    LEFT JOIN manager_tbl m ON b.operator_id = m.manager_id
+    LEFT JOIN book_type_tbl bt ON b.type_id = bt.type_id
+    where book_toBorrow_id = #{bookToborrowId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book_toborrow_tbl
+    where book_toBorrow_id = #{bookToborrowId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.BookToBorrowExample">
+    delete from book_toborrow_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.BookToBorrow">
+    insert into book_toborrow_tbl (book_toBorrow_id, book_id, reader_id, 
+      borrowed_date, returned_date, is_returned
+      )
+    values (#{bookToborrowId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{readerId,jdbcType=INTEGER}, 
+      #{borrowedDate,jdbcType=TIMESTAMP}, #{returnedDate,jdbcType=TIMESTAMP}, #{isReturned,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.BookToBorrow">
+    insert into book_toborrow_tbl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookToborrowId != null">
+        book_toBorrow_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="readerId != null">
+        reader_id,
+      </if>
+      <if test="borrowedDate != null">
+        borrowed_date,
+      </if>
+      <if test="returnedDate != null">
+        returned_date,
+      </if>
+      <if test="isReturned != null">
+        is_returned,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookToborrowId != null">
+        #{bookToborrowId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="readerId != null">
+        #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowedDate != null">
+        #{borrowedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnedDate != null">
+        #{returnedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReturned != null">
+        #{isReturned,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.BookToBorrowExample" resultType="java.lang.Long">
+    select count(*) from book_toborrow_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update book_toborrow_tbl
+    <set>
+      <if test="record.bookToborrowId != null">
+        book_toBorrow_id = #{record.bookToborrowId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookId != null">
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerId != null">
+        reader_id = #{record.readerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowedDate != null">
+        borrowed_date = #{record.borrowedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returnedDate != null">
+        returned_date = #{record.returnedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isReturned != null">
+        is_returned = #{record.isReturned,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update book_toborrow_tbl
+    set book_toBorrow_id = #{record.bookToborrowId,jdbcType=INTEGER},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      reader_id = #{record.readerId,jdbcType=INTEGER},
+      borrowed_date = #{record.borrowedDate,jdbcType=TIMESTAMP},
+      returned_date = #{record.returnedDate,jdbcType=TIMESTAMP},
+      is_returned = #{record.isReturned,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.BookToBorrow">
+    update book_toborrow_tbl
+    <set>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="readerId != null">
+        reader_id = #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowedDate != null">
+        borrowed_date = #{borrowedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnedDate != null">
+        returned_date = #{returnedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReturned != null">
+        is_returned = #{isReturned,jdbcType=TINYINT},
+      </if>
+    </set>
+    where book_toBorrow_id = #{bookToborrowId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.BookToBorrow">
+    update book_toborrow_tbl
+    set book_id = #{bookId,jdbcType=INTEGER},
+      reader_id = #{readerId,jdbcType=INTEGER},
+      borrowed_date = #{borrowedDate,jdbcType=TIMESTAMP},
+      returned_date = #{returnedDate,jdbcType=TIMESTAMP},
+      is_returned = #{isReturned,jdbcType=TINYINT}
+    where book_toBorrow_id = #{bookToborrowId,jdbcType=INTEGER}
+  </update>
+</mapper>

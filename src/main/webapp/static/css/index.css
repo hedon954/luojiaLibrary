@@ -1,0 +1,463 @@
+body {
+    margin: 0;
+    font-family: "Kaiti SC";
+    color: #706c70;
+}
+
+div {
+    display: block;
+}
+
+button {
+    font-family: "Kaiti SC";
+    font-size: 1.1em;
+    outline: none;
+}
+
+.container {
+    padding-left: 10px;
+    padding-right: 10px;
+
+    margin-top: 17px;
+    margin-bottom: 15px;
+}
+
+.logo {
+    margin-right: 1%;
+    width: 61%;
+    float: left;
+}
+
+.bgd {
+    height: 350px;
+    background-image: url("../images/Title.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.nav-container {
+    background-color: #dba4be;
+    max-height: 55px;
+}
+
+.navigation_class {
+    text-align: center;
+    width: 98%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.navigation_class a {
+/*    width: 120px;*/
+    display: inline-block;
+    color: #fdfdfd;
+    text-align: center;
+    padding: 14px 14px;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.navigation_class a:hover {
+    background-color: #c5a8c4;
+}
+
+.dropdown_class {
+    width: 12%;
+    display: inline-block;
+}
+
+
+.dropdown-content_class {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content_class a {
+    color: #706c70;
+    padding: 12px 16px;
+    float: none;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown_class:hover .dropdown-content_class {
+    display: block;
+}
+
+.main {
+    margin-top: 20px;
+}
+
+/*
+    row控制表单主体的横向大小
+*/
+.row {
+    width: 100%;
+    max-width: 1350px;
+    min-width: 750px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/*
+    mainForm控制纵向以及颜色，边框等等，是主要容器
+*/
+.mainForm {
+    background-color: #ece3ed;
+    border: 1px solid #efefef;
+    height: 1000px;
+}
+
+.mainForm-header {
+    height: 50px;
+    margin-bottom: 10px;
+    padding: 0 40px;
+}
+
+.mainForm-header p {
+    margin: 10px 0px 0px;
+    text-align: center;
+    font-family: "Kaiti SC";
+    font-size: 2em;
+    color: #706c70;
+}
+
+.mainForm-body {
+    padding: 10px;
+}
+
+#formContent {
+    margin: 0 240px;
+}
+
+#formContent {
+     width: 650px;
+     /*border: 2px solid #ccc;*/
+     box-sizing: border-box;
+     font-size: 1.05em;
+     height: 30px;
+     color: #706c70;
+     font-family: "Kaiti TC";
+     outline: none;
+     transition: 0.3s;
+     -webkit-transition: 0.3s;
+ }
+
+#formContent input {
+    width: 650px;
+}
+
+#formContent label {
+    font-size: 1.3em;
+    display: block;
+    margin-top: 15px;
+}
+
+/*#formContent label:first-child {*/
+/*    margin-top: 0px;*/
+/*}*/
+
+#formContent button {
+    display: block;
+    width: 100px;
+    margin: 20px 40% 0;
+    border: none;
+    color: #706c70;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0,37,55,.5);
+    cursor: pointer;
+}
+
+#library_info {
+    width: 650px;
+    resize:none;
+}
+
+#tableClass {
+    margin: 20px 59px 0;
+}
+
+#tableClass td, #tableClass th, #tableClass table {
+    vertical-align: middle;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#tableClass table {
+    width: 100%;
+    min-width: 1000px;
+    margin: 0 auto;
+    background-color: #fdfdfd;
+}
+
+#readers_table{
+     width: 110%;
+     min-width: 1000px;
+     margin: 0 auto;
+     background-color: #fdfdfd;
+     transform: translateX(-2.5%);
+ }
+
+#book_info_table{
+    width: 90%;
+    min-width: 1000px;
+    margin: 0 auto;
+    background-color: #fdfdfd;
+    transform: translateX(-3.5%);
+}
+#homepage_form{
+    transform: translateX(17%);
+}
+#change-Manger-Pwd-form{
+    transform: translateX(17%);
+}
+
+#tableClass table button {
+    font-size: 1em;
+}
+
+.footer {
+    height: 150px;
+    min-width: 100%;
+    margin-top: 20px;
+}
+
+#purpleBtn {
+    overflow: hidden;
+    padding-right: 120px;
+}
+
+#purpleBtn button {
+    width: 120px;
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 35px;
+    float: right;
+    background-color: rgba(122, 98, 124, 1);
+    color: #fdfdfd;
+    border: 1px solid rgba(121, 121, 121, 1);
+    border-radius: 5px;
+    font-size: 1.05em;
+    cursor: pointer;
+}
+
+#mask {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.popup {
+    border: 1px solid #706c70;
+    position: relative;
+    background-color: #ece3ed;
+    width: 500px;
+    height: 450px;
+    top: 150px;
+    border-radius: 5px;
+    margin: 5% auto;
+    box-shadow: 0px 4px 4px rgba(0,37,55,.5);
+}
+
+#header {
+    border-bottom: 1px solid #706c70;
+    padding: 7px 15px;
+    background-color: #fdfdfd;
+}
+
+#header span {
+    display: block;
+    font-size: 1.3em;
+}
+
+#x {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background: red;
+    color: #fff;
+    right: 10px;
+    top: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#body {
+    padding: 15px 35px;
+    background-color: #ece3ed;
+}
+
+#popup-form label {
+    display: block;
+    height: 25px;
+    font-size: 1.1em;
+}
+
+#popup-form input[type=text] {
+    display: block;
+    height: 25px;
+    margin-bottom: 10px;
+    width: 270px;
+    font-family: "Kaiti TC";
+    font-size: 1.01em;
+    border: 2px solid #ccc;
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    outline: none;
+    color: #706c70;
+}
+
+#popup-form input[type=text]:focus {
+    border: 2px solid #555;
+}
+
+#popup-form input[type=text]:disabled {
+    background-color: #dbdbdb;
+    color: #706c70;
+}
+
+#save {
+    position: absolute;
+    display: block;
+    width: 100px;
+    border: none;
+    color: #706c70;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,37,55,.5);
+    bottom: 25px;
+    right: 40px;
+    cursor: pointer;
+}
+
+.readerForm {
+    display: block;
+    height: auto;
+    float: left;
+}
+
+.firstLine {
+    padding:0 350px;
+    transform: translateX(7%);
+}
+
+.firstLine input {
+    width: 250px;
+}
+
+.confirmBtn {
+    display: block;
+    overflow: hidden;
+    padding-left: 20px;
+}
+
+.confirmBtn button {
+    width: 80px;
+    height: auto;
+    background-color: rgba(122, 98, 124, 1);
+    color: #fdfdfd;
+    border: 1px solid rgba(121, 121, 121, 1);
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.secondLine {
+    overflow: hidden;
+    padding: 5px 0;
+    padding-left: 130px;
+    padding-right: 110px;
+    transform: translateX(5%);
+}
+
+.secondLine div {
+    display: block;
+    float: left;
+    padding-right: 40px;
+}
+
+.secondLine input {
+    width: 200px;
+}
+
+.thirdLine {
+    overflow: hidden;
+    padding: 5px 0;
+    padding-left: 98px;
+    padding-right: 110px;
+}
+
+.thirdLine div {
+    display: block;
+    float: left;
+    padding-right: 8px;
+}
+
+.thirdLine input {
+    width: 200px;
+}
+
+#numCombox {
+    padding-left: 32px;
+}
+
+#bookNum {
+    width: 150px;
+    background-color: #fdfdfd;
+}
+
+.forthLine {
+    overflow: hidden;
+    padding: 5px 0;
+    padding-left: 130px;
+    padding-right: 110px;
+}
+
+.forthLine div {
+    display: block;
+    float: left;
+    padding-right: 40px;
+}
+
+.forthLine input[type=text] {
+    width: 200px;
+}
+
+.forthLine input[type=checkbox] {
+    display: inline-block;
+    width: 15px;
+    margin-left: 5px;
+}
+
+.forthLine .confirmBtn {
+    float: right;
+    padding-left: 40px;
+}
+
+#completeBtn {
+    padding-left: 20px;
+}
+
+.completeBtn button{
+    width: 100px;
+}
+
+
+
+#add_reader_modal_form div{
+    margin-bottom: 10px;
+}
+
+#book_type_table button{
+    margin: 3px;
+}
+
+.table td{
+    vertical-align: center;
+}

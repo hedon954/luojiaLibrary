@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BookReturnMapper">
+  <resultMap id="BaseResultMap" type="com.bean.BookReturn">
+    <id column="book_return_id" jdbcType="INTEGER" property="bookReturnId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="toBorrow_date" jdbcType="TIMESTAMP" property="toborrowDate" />
+    <result column="toReturn_date" jdbcType="TIMESTAMP" property="toreturnDate" />
+    <result column="borrower_id" jdbcType="INTEGER" property="borrowerId" />
+    <result column="retrun_date" jdbcType="TIMESTAMP" property="retrunDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    book_return_id, book_id, book_name, toBorrow_date, toReturn_date, borrower_id, retrun_date
+  </sql>
+  <select id="selectByExample" parameterType="com.bean.BookReturnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book_return_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book_return_tbl
+    where book_return_id = #{bookReturnId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book_return_tbl
+    where book_return_id = #{bookReturnId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bean.BookReturnExample">
+    delete from book_return_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bean.BookReturn">
+    insert into book_return_tbl (book_return_id, book_id, book_name, 
+      toBorrow_date, toReturn_date, borrower_id, 
+      retrun_date)
+    values (#{bookReturnId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, 
+      #{toborrowDate,jdbcType=TIMESTAMP}, #{toreturnDate,jdbcType=TIMESTAMP}, #{borrowerId,jdbcType=INTEGER}, 
+      #{retrunDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bean.BookReturn">
+    insert into book_return_tbl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookReturnId != null">
+        book_return_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="toborrowDate != null">
+        toBorrow_date,
+      </if>
+      <if test="toreturnDate != null">
+        toReturn_date,
+      </if>
+      <if test="borrowerId != null">
+        borrower_id,
+      </if>
+      <if test="retrunDate != null">
+        retrun_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookReturnId != null">
+        #{bookReturnId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="toborrowDate != null">
+        #{toborrowDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toreturnDate != null">
+        #{toreturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="borrowerId != null">
+        #{borrowerId,jdbcType=INTEGER},
+      </if>
+      <if test="retrunDate != null">
+        #{retrunDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bean.BookReturnExample" resultType="java.lang.Long">
+    select count(*) from book_return_tbl
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update book_return_tbl
+    <set>
+      <if test="record.bookReturnId != null">
+        book_return_id = #{record.bookReturnId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookId != null">
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookName != null">
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toborrowDate != null">
+        toBorrow_date = #{record.toborrowDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.toreturnDate != null">
+        toReturn_date = #{record.toreturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.borrowerId != null">
+        borrower_id = #{record.borrowerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.retrunDate != null">
+        retrun_date = #{record.retrunDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update book_return_tbl
+    set book_return_id = #{record.bookReturnId,jdbcType=INTEGER},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      toBorrow_date = #{record.toborrowDate,jdbcType=TIMESTAMP},
+      toReturn_date = #{record.toreturnDate,jdbcType=TIMESTAMP},
+      borrower_id = #{record.borrowerId,jdbcType=INTEGER},
+      retrun_date = #{record.retrunDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.BookReturn">
+    update book_return_tbl
+    <set>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="toborrowDate != null">
+        toBorrow_date = #{toborrowDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toreturnDate != null">
+        toReturn_date = #{toreturnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="borrowerId != null">
+        borrower_id = #{borrowerId,jdbcType=INTEGER},
+      </if>
+      <if test="retrunDate != null">
+        retrun_date = #{retrunDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where book_return_id = #{bookReturnId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bean.BookReturn">
+    update book_return_tbl
+    set book_id = #{bookId,jdbcType=INTEGER},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      toBorrow_date = #{toborrowDate,jdbcType=TIMESTAMP},
+      toReturn_date = #{toreturnDate,jdbcType=TIMESTAMP},
+      borrower_id = #{borrowerId,jdbcType=INTEGER},
+      retrun_date = #{retrunDate,jdbcType=TIMESTAMP}
+    where book_return_id = #{bookReturnId,jdbcType=INTEGER}
+  </update>
+</mapper>
